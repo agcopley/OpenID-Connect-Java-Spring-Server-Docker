@@ -1,0 +1,56 @@
+version: "3"
+
+services:
+
+
+    mitreid-oidc:
+        container_name: mitreid-oidc
+        image: mitreid-oidc
+        stdin_open: true
+        tty: true
+        volumes:
+            - /home/oidc/mitreid/server-config.xml:/opt/mitreidc/openid-connect-server-webapp/src/main/webapp/WEB-INF/server-config.xml
+            - /home/oidc/mitreid/data-context.xml:/opt/mitreidc/openid-connect-server-webapp/src/main/webapp/WEB-INF/data-context.xml
+        ports:
+            - 8090:8080
+        networks:
+            oidc_net:
+                ipv4_address: 172.18.0.5
+        depends_on:
+            - mysql-oidc
+
+
+
+
+    mysql-oidc:
+        container_name: mysql-oidc
+        image: mysql-oidc
+        stdin_open: true
+        tty: true
+        volumes:
+            - mysql-oidc:/var/lib/mysql
+        environment:
+            MYSQL_DATABASE: oic
+            MYSQL_USER: oicuser
+            MYSQL_PASSWORD: oicuser
+            MYSQL_ROOT_PASSWORD: oicroot
+        ports:
+            - 3306:3306
+        networks:
+            oidc_net:
+                ipv4_address: 172.18.0.4
+                
+                
+                
+volumes:
+    mysql-oidc:
+    postgres_data_camunda:
+    static_volume:
+
+   
+networks:
+    oidc_net:
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.18.0.0/29                  
