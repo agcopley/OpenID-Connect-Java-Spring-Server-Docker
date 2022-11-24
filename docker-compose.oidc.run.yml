@@ -31,8 +31,8 @@ services:
             - mysql-oidc:/var/lib/mysql
         environment:
             MYSQL_DATABASE: oic
-            MYSQL_USER: oicuser
-            MYSQL_PASSWORD: oicuser
+            MYSQL_USER: oic
+            MYSQL_PASSWORD: oic
             MYSQL_ROOT_PASSWORD: oicroot
         ports:
             - 3306:3306
